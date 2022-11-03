@@ -3,49 +3,49 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Toast from 'react-bootstrap/Toast';
 
-export default function NewCustomer() {
-    const [customer, setCustomer] = useState({name: '', email_id: '', mobile_no: '', customer_dob: ''});
+export default function NewOffer() {
+    const [offer, setOffer] = useState({offer_name: '', is_active: false, percentage_discount: 0, created_on: ''});
     const [showA, setShowA] = useState(false);
     const toggleShowA = () => setShowA(!showA);
     const handleSave = () => {
-        fetch('/api/customers', {
+        fetch('/api/offers', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(customer),
+            body: JSON.stringify(offer),
         })
             .then((response) => setShowA(true))
     };
 
     return (
         <>
+            <Form.Check
+                type="switch"
+                id="email_id"
+                label="Activate Offer"
+                value={offer.is_active}
+                onChange={(event) => setOffer({...offer, is_active: !offer.is_active})}
+            />
             <Form.Label htmlFor='name'>Name</Form.Label>
             <Form.Control
                 id='name'
-                value={customer.name}
-                onChange={(event) => setCustomer({...customer, name: event.target.value})}
+                value={offer.offer_name}
+                onChange={(event) => setOffer({...offer, offer_name: event.target.value})}
             />
-            <Form.Label htmlFor='email_id'>Email</Form.Label>
-            <Form.Control
-                id='email_id'
-                type={'email'}
-                value={customer.email_id}
-                onChange={(event) => setCustomer({...customer, email_id: event.target.value})}
-            />
-            <Form.Label htmlFor='mobile_no'>Number</Form.Label>
+            <Form.Label htmlFor='mobile_no'>Percentage</Form.Label>
             <Form.Control
                 id='mobile_no'
                 type={'number'}
-                value={customer.mobile_no}
-                onChange={(event) => setCustomer({...customer, mobile_no: event.target.value})}
+                value={offer.percentage_discount}
+                onChange={(event) => setOffer({...offer, percentage_discount: event.target.value})}
             />
-            <Form.Label htmlFor='customer_dob'>Date of Birth</Form.Label>
+            <Form.Label htmlFor='customer_dob'>Start From</Form.Label>
             <Form.Control
                 id='customer_dob'
                 type={'date'}
-                value={customer.customer_dob}
-                onChange={(event) => setCustomer({...customer, customer_dob: event.target.value})}
+                value={offer.created_on}
+                onChange={(event) => setOffer({...offer, created_on: event.target.value})}
             />
             <div className={'c-add-button'}>
                 <Button variant='primary' onClick={handleSave}>
@@ -57,7 +57,7 @@ export default function NewCustomer() {
                     <strong className='me-auto'>Success!!</strong>
                     <small>Just now</small>
                 </Toast.Header>
-                <Toast.Body>You have added new customer!</Toast.Body>
+                <Toast.Body>You have added new Offer!</Toast.Body>
             </Toast>
         </>
     )

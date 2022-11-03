@@ -8,12 +8,15 @@ import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import NewCustomer from './new-customer';
+import NewOffer from "./create-offer";
+import ProductOffer from "./product-offer";
 
 function PharmacyApp() {
     const [products, setProducts] = useState([])
     const [returnProduct, setReturnProduct] = useState('')
     const [show, setShow] = useState(false);
     const [showCManage, setShowCManage] = useState(false);
+    const [showOManage, setShowOManage] = useState(false);
     const [returnShow, setReturnShow] = useState(false);
     const [unsavedProduct, setUnsavedProduct] = useState({
         product_name: '',
@@ -26,6 +29,7 @@ function PharmacyApp() {
         setShow(false);
         setReturnShow(false);
         setShowCManage(false);
+        setShowOManage(false);
     }
     const handleSave = () => {
         fetch('/api/products', {
@@ -72,6 +76,8 @@ function PharmacyApp() {
                 <Button className='button-pha' variant='secondary'
                         onClick={() => setShowCManage(true)}>{'Customer Management'}</Button>
                 <Button className='button-pha' variant='secondary'>{'Billing Management'}</Button>
+                <Button className='button-pha' variant='secondary'
+                        onClick={() => setShowOManage(true)}>{'Offer Management'}</Button>
                 <div className='search-bar-pha'>
                     <Form.Label htmlFor='productName'>Search By product name</Form.Label>
                     <Form.Control
@@ -170,6 +176,36 @@ function PharmacyApp() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <Modal show={showOManage} onHide={handleClose} animation={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Offer Management</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Tabs
+                        defaultActiveKey='add'
+                        id='c-tabs-id'
+                        className='mb-3'
+                    >
+                        <Tab eventKey='add' title='Add'>
+                            <NewOffer/>
+                        </Tab>
+                        <Tab eventKey='delete' title='Delete'>
+
+                        </Tab>
+                        <Tab eventKey='update' title='Update'>
+
+                        </Tab>
+                        <Tab eventKey='product-offer' title='Product Offers'>
+                            <ProductOffer/>
+                        </Tab>
+                    </Tabs>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant='secondary' onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             <Modal show={showCManage} onHide={handleClose} animation={false}>
                 <Modal.Header closeButton>
                     <Modal.Title>Customer Management</Modal.Title>
@@ -197,6 +233,7 @@ function PharmacyApp() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
         </div>
     );
 }
