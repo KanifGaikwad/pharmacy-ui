@@ -57,16 +57,14 @@ export default function ProductOffer() {
     }
 
     const isOfferSelected = (prodId, offerId) => {
-        proOffer.forEach(o => {
-            if (o.product_id === prodId) {
-                console.log(" product offer " + prodId + " " + offerId);
-                let filter = o.offers.filter(of => of.offer_id === offerId);
-                if (filter !== undefined && filter.length > 0) {
-                    console.log(" returning true product offer " + prodId + " " + offerId);
-                    return true
-                }
+        let selectedProduct = proOffer.filter(prod => prod.product_id === prodId);
+        if (selectedProduct.length > 0) {
+            let p = selectedProduct[0];
+            let selectedOffer = p.offers.filter(of => of.offer_id === offerId);
+            if (selectedOffer.length > 0) {
+                return true
             }
-        })
+        }
         return false;
     }
 
@@ -107,9 +105,9 @@ export default function ProductOffer() {
                                                         type="switch"
                                                         id="custom-switch"
                                                         value={isOfferSelected(product.product_id, offer.offer_id)}
-                                                        defaultChecked={isOfferSelected(product.product_id, offer.offer_id)}
+                                                        checked={isOfferSelected(product.product_id, offer.offer_id)}
                                                         isValid={true}
-                                                        onChange={(event) => manageOffer(product.product_id, offer.offer_id, event.target.value)}
+                                                        onChange={(event) => manageOffer(product.product_id, offer.offer_id, event.target.checked)}
                                                         label={offer.offer_name}/>
                                                 </>
                                             )
