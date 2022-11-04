@@ -8,8 +8,10 @@ import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import NewCustomer from './new-customer';
-import NewOffer from "./create-offer";
-import ProductOffer from "./product-offer";
+import NewOffer from './create-offer';
+import ProductOffer from './product-offer';
+import Alert from 'react-bootstrap/Alert';
+import UpdateOffer from './update-offer';
 
 function PharmacyApp() {
     const [products, setProducts] = useState([])
@@ -96,6 +98,7 @@ function PharmacyApp() {
                     <th>Supplier</th>
                     <th>Expiry Date</th>
                     <th>Quantity</th>
+                    <th>Offers Applied</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -109,6 +112,17 @@ function PharmacyApp() {
                                 <td key={prod.product_id}>{prod.supplier_id}</td>
                                 <td key={prod.product_id}>{prod.created_on}</td>
                                 <td key={prod.product_id}>{prod.threshold_qty}</td>
+                                <td key={prod.product_id}>{
+                                    prod.offers.map(off => {
+                                        return (
+                                            <div>
+                                                <Alert key={'primary'} variant={'primary'}>
+                                                    {off.offer_name}
+                                                </Alert>
+                                            </div>
+                                        )
+                                    })
+                                }</td>
                             </tr>
                         )
                     })
@@ -193,7 +207,7 @@ function PharmacyApp() {
 
                         </Tab>
                         <Tab eventKey='update' title='Update'>
-
+                            <UpdateOffer/>
                         </Tab>
                         <Tab eventKey='product-offer' title='Product Offers'>
                             <ProductOffer/>
@@ -223,7 +237,6 @@ function PharmacyApp() {
 
                         </Tab>
                         <Tab eventKey='update' title='Update'>
-
                         </Tab>
                     </Tabs>
                 </Modal.Body>
